@@ -175,7 +175,7 @@
         card.className = 'col-md-4 col-sm-6 mb-4';
 
         const cardContent = `
-          <a href="${file.thumbnail}" target="_blank" class="card-link">
+          <a href="https://streamwish.thopdbapp.workers.dev/?id=${file.file_code}" target="_blank" class="card-link">
             <div class="card">
               <div class="position-relative">
                 <img src="${file.thumbnail}" class="card-img-top" alt="${file.title}">
@@ -185,7 +185,7 @@
               </div>
               <div class="card-body">
                 <h5 class="card-title">${file.title}</h5>
-                <p class="card-text">${file.file_code}</p>
+                <p class="card-text">${file.title}</p>
               </div>
             </div>
           </a>
