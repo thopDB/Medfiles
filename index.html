@@ -70,7 +70,7 @@
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script>
+<script>
     let allData = [];
     let displayedData = [];
     const itemsPerPage = 6;
@@ -169,12 +169,31 @@
     function handleSearch() {
       searchQuery = document.getElementById('searchInput').value;
       fetchAndDisplayData();
+      updateURLParams();
     }
 
-    // Initial fetching and displaying of data
-    fetchAndDisplayData();
+    // Function to update URL parameters
+    function updateURLParams() {
+      const queryParams = new URLSearchParams(window.location.search);
+      queryParams.set('page', currentPage);
+      queryParams.set('search', searchQuery);
+      const newURL = `${window.location.pathname}?${queryParams.toString()}`;
+      window.history.replaceState({}, '', newURL);
+    }
+
+    // Function to parse URL parameters and initialize data
+    function initializeFromURL() {
+      const queryParams = new URLSearchParams(window.location.search);
+      currentPage = parseInt(queryParams.get('page')) || 1;
+      searchQuery = queryParams.get('search') || '';
+
+      fetchAndDisplayData();
+      document.getElementById('searchInput').value = searchQuery;
+    }
+
+    // Initial fetching and displaying of data based on URL parameters
+    initializeFromURL();
 
   </script>
-
 </body>
 </html>
