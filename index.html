@@ -151,7 +151,32 @@ const loadMoreBtn = document.getElementById('loadMoreBtn');
       }
     });
 
+        // Your fetchAndDisplayData, handleSearch, and other functions here...
+
+    // Function to extract search parameter from URL
+    function getSearchParams() {
+      const queryString = window.location.search;
+      const urlParams = new URLSearchParams(queryString);
+      return urlParams.get('search');
+    }
+
+    // Function to handle search based on URL parameter
+    async function handleSearchFromURL() {
+      const searchQuery = getSearchParams();
+      if (searchQuery) {
+        const filteredData = allData.filter(file => file.title.toLowerCase().includes(searchQuery.toLowerCase()));
+        displayData(filteredData);
+      } else {
+        displayData(displayedData); // Display initial data
+      }
+    }
+
+    // Fetch and display data initially
     fetchAndDisplayData();
+
+    // Display search results based on URL parameter
+    handleSearchFromURL();
+
 
   // Function to handle search input
   function handleSearch() {
