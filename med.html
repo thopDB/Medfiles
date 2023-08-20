@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data Fetching Example</title>
+  <!-- Include Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+<style>
+  .card {
+    position: relative;
+    overflow: hidden; /* Hide overflowing play button */
+    height: 100%;
+  }
+
+  .card-link {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    text-decoration: none;
+  }
+
+  .play-button-overlay {
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 36px;
+    color: blue;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+  }
+
+  .play-button-overlay:hover {
+    opacity: 1;
+  }
+
+  .card-body {
+    flex: 1;
+  }
+/* Additional styles for the search input
+  #searchBox {
+    margin-bottom: 20px;
+  }  */
+</style>
+
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Data Fetching Example</a>
+    <form class="form-inline my-2 my-lg-0 ml-auto">
+      <input class="form-control mr-sm-2" type="search" id="searchInput" placeholder="Search by title" onkeyup="handleSearch()">
+    </form>
+  </nav>
+
+  <div class="container mt-4">
+    <div class="row" id="dataRow"></div>
+    <div class="text-center mt-3">
+      <button class="btn btn-primary" id="loadMoreBtn">Load More</button>
+    </div>
+  </div>
+
+  <!-- Include Bootstrap JS and your custom JavaScript -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script>
+    let allData = [];
+    let displayedData = [];
+    const itemsPerPage = 6;
+    let currentPage = 1;
+
+    async function fetchAllData() {
+      try {
+        let nextPage = 1;
+        let newData = [];
+
+        while (true) {
+          const response = await fetch(`https://api-med.thopdbapp.workers.dev/?id=8356&page=${nextPage}`);
+          const data = await response.json();
+
+          if (data.files.length === 0) {
+            break;
+          }
+
+          newData = [...newData, ...data.files];
+          nextPage++;
+        }
+
+        return newData;
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        return [];
+      }
+    }
+
+    async function fetchAndDisplayData() {
+      allData = await fetchAllData();
+      displayedData = allData.slice(0, itemsPerPage);
+      displayData(displayedData);
+    }
+
+    function displayData(data) {
+      const dataRow = document.getElementById('dataRow');
+      dataRow.innerHTML = '';
+
+      data.forEach(file => {
+        const card = document.createElement('div');
+        card.className = 'col-md-4 col-sm-6 mb-4';
+
+        const cardContent = `
+          <a href="https://streamwish.thopdbapp.workers.dev/?id=${file.file_code}" target="_blank" class="card-link">
+            <div class="card">
+              <div class="position-relative">
+                <img src="${file.thumbnail}" class="card-img-top" alt="${file.title}">
+                <div class="play-button-overlay">
+                  <i class="fas fa-play"></i>
+                </div>
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">${file.title}</h5>
+                <p class="card-text">${file.title}</p>
+              </div>
+            </div>
+          </a>
+        `;
+
+        card.innerHTML = cardContent;
+        dataRow.appendChild(card);
+      });
+    }
+
+const loadMoreBtn = document.getElementById('loadMoreBtn');
+    loadMoreBtn.addEventListener('click', () => {
+      currentPage++;
+      const startIdx = (currentPage - 1) * itemsPerPage;
+      const endIdx = startIdx + itemsPerPage;
+
+      if (startIdx < allData.length) {
+        displayedData = allData.slice(0, endIdx);
+        displayData(displayedData);
+        window.scrollTo(0, 0);
+      } else {
+        loadMoreBtn.disabled = true;
+      }
+    });
+
+    fetchAndDisplayData();
+
+  // Function to handle search input
+  function handleSearch() {
+    const searchInput = document.getElementById('searchInput').value.toLowerCase();
+    const filteredData = allData.filter(file => file.title.toLowerCase().includes(searchInput));
+    displayData(filteredData);
+  }
+  </script>
+</body>
+</html>
