@@ -1,0 +1,123 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    #loading {
+      display: none;
+    }
+  </style>
+  <title>Dr Najeeb Premiume Lecture Videos</title>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="/" style="color: white;">MedFiles</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" style="color: white;">
+            <span class="navbar-toggler-icon" style="color: white;"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+<li class="nav-item active">
+            <a class="nav-link" href="/" style="color: white;">Home <span class="sr-only">(current)</span></a>
+          </li>
+       <!-- <li class="nav-item">
+            <a class="nav-link" href="/telugu-movies" style="color: white;">Telugu</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/hindi-movies" style="color: white;">Hindi</a>
+          </li>
+		  <li class="nav-item">
+            <a class="nav-link" href="/tamil-movies" style="color: white;">Tamil</a>
+          </li>
+		  <li class="nav-item">
+            <a class="nav-link" href="/?search=English" style="color: white;">English</a>
+          </li> -->
+<li class="nav-item">
+            <!-- Add the Telegram icon and link -->
+            <a class="nav-link" href="https://telegram.dog/thopmoview">
+              <i class="fab fa-telegram fa-lg"></i> 
+            </a>
+          </li>
+                <!--<li class="nav-item">
+                    <form class="form-inline" id="searchForm">
+                        <input class="form-control" type="text" placeholder="Search..." aria-label="Search"
+                               id="searchInput" name="search">
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                    </form>
+                </li>-->
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container mt-5">
+  <h2>Dr Najeeb Premiume Lecture Videos</h2>
+  <div id="loading" class="text-center mt-3">
+    <div class="spinner-border" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+  <table class="table mt-3" id="dataTable" style="display:none;">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Views</th>
+      </tr>
+    </thead>
+    <tbody id="apiData"></tbody>
+  </table>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const loadingElement = document.getElementById('loading');
+    const dataTable = document.getElementById('dataTable');
+
+    // Show loading animation
+    loadingElement.style.display = 'block';
+
+    // Retrieve id and fld_id from the URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const id = urlParams.get('id');
+   // const fld_id = urlParams.get('fld_id');
+
+    // Fetch data from the API
+    fetch(`https://med-api.thopdbapp.workers.dev/?id=${id}`)
+      .then(response => response.json())
+      .then(data => {
+        if (data.status === 200) {
+          displayData(data.result.files, id);
+        } else {
+          console.error('Error fetching data:', data.msg);
+        }
+      })
+      .catch(error => console.error('Error fetching data:', error))
+      .finally(() => {
+        // Hide loading animation and show table
+        loadingElement.style.display = 'none';
+        dataTable.style.display = 'table';
+      });
+  });
+
+  function displayData(files, id) {
+    const apiDataContainer = document.getElementById('apiData');
+
+    files.forEach(file => {
+      const rowHtml = `
+        <tr>
+          <td><a href="details.html?id=${file.file_code}&fld_id=${id}" target="_blank">${file.title}</a></td>
+          <td>${file.views}</td>
+        </tr>
+      `;
+
+      apiDataContainer.innerHTML += rowHtml;
+    });
+  }
+</script>
+
+</body>
+</html>
