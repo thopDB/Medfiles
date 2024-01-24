@@ -1,263 +1,177 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Medical Videos - Dr Najeeb Premiume Videos</title>
-  <!-- Include Bootstrap CSS -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4/dist/flatly/bootstrap.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Dr Najeeb Premiume Lecture Vides - Medical Videos</title>
+	
 <!-- Add FontAwesome stylesheet -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
-<style>
-  .card {
-    position: relative;
-    overflow: hidden; /* Hide overflowing play button */
-    height: 100%;
-  }
+	<script disable-devtool-auto="" src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
+	<script type='text/javascript' src='https://platform-api.sharethis.com/js/sharethis.js#property=65191f03d43c16001201d803&product=sop' async='async'></script>
+    <style>
+	   
+        #loadingSpinner {
+            display: none;
+        }
 
-  .card-link {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    text-decoration: none;
-  }
+        #noResultsMessage {
+            display: none;
+            font-size: 18px;
+            font-weight: bold;
+            color: red;
+            margin-top: 20px;
+        }
+	    
+   
+#search-container {
+    max-width: 100%;
+}
 
-  .play-button-overlay {
-    position: absolute;
-    top: 35%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 36px;
-    color: blue;
-    opacity: 0.7;
-    transition: opacity 0.2s;
-  }
+input[type=text] {
 
-  .play-button-overlay:hover {
-    opacity: 1;
-  }
+    outline: none;
+    padding: 15px 25px;
+    margin: 5px 1px 3px 0px;
+    border: none;
+    width: 100%;
+    border-radius: 1px;
+    box-shadow: 0 1px 0px 0 rgba(0,0,0,0.16), 0 0 0 1px rgba(0,0,0,0.08);
 
-  .card-body {
-    flex: 1;
-  }
-/* Additional styles for the search input
-  #searchBox {
-    margin-bottom: 20px;
-  }  */
+}
+
+input[type=text]:hover {
+    outline: none;
+    border: none;
+    margin: 5px 1px 3px 0px;
+    padding: 15px 25px;
+    -webkit-transition: all 0.30s ease-in-out;
+    -moz-transition: all 0.30s ease-in-out;
+    -ms-transition: all 0.30s ease-in-out;
+    -o-transition: all 0.30s ease-in-out;
+     box-shadow: 0 2px 2px 0 rgba(0,0,0,0.16), 0 0 0 1px rgba(0,0,0,0.08);
+}
+
+input[type=text]:focus {
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.16), 0 0 0 1px rgba(0,0,0,0.08);
+    margin: 5px 1px 3px 0px;
+    padding: 15px 25px;
+    border: none;
+    outline: none;
+        -webkit-transition: all 0.30s ease-in-out;
+    -moz-transition: all 0.30s ease-in-out;
+    -ms-transition: all 0.30s ease-in-out;
+    -o-transition: all 0.30s ease-in-out;
+}
+
+@media screen and (max-width: 600px) {
+    input[type=text]{
+            width: 100%;
+            box-sizing: border-box;
+    }
+    }
 </style>
+	<style>
+    .folder-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
 
+    @media (min-width: 576px) {
+      .folder-item {
+        width: 31%;
+      }
+    }
+  </style>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+<nav class="navbar navbar-expand-lg navbar-light bg-dark">
     <div class="container">
-      <a class="navbar-brand" href="/">Medical Videos</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+        <a class="navbar-brand" href="/" style="color: white;">MedFiles</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" style="color: white;">
+            <span class="navbar-toggler-icon" style="color: white;"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+<li class="nav-item active">
+            <a class="nav-link" href="/" style="color: white;">Home <span class="sr-only">(current)</span></a>
           </li>
-        <!--  <li class="nav-item">
-            <a class="nav-link" href="/?search=Telugu">Telugu</a>
+       <!-- <li class="nav-item">
+            <a class="nav-link" href="/telugu-movies" style="color: white;">Telugu</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/?search=Hindi">Hindi</a>
+            <a class="nav-link" href="/hindi-movies" style="color: white;">Hindi</a>
           </li>
 		  <li class="nav-item">
-            <a class="nav-link" href="/?search=Tamil">Tamil</a>
+            <a class="nav-link" href="/tamil-movies" style="color: white;">Tamil</a>
           </li>
 		  <li class="nav-item">
-            <a class="nav-link" href="/?search=English">English</a>
-          </li>-->
+            <a class="nav-link" href="/?search=English" style="color: white;">English</a>
+          </li> -->
 <li class="nav-item">
             <!-- Add the Telegram icon and link -->
-            <a class="nav-link" href="https://t.me/medical_videoo">
+            <a class="nav-link" href="https://telegram.dog/thopmoview">
               <i class="fab fa-telegram fa-lg"></i> 
             </a>
           </li>
-        </ul>
-      </div>
+                <!--<li class="nav-item">
+                    <form class="form-inline" id="searchForm">
+                        <input class="form-control" type="text" placeholder="Search..." aria-label="Search"
+                               id="searchInput" name="search">
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                    </form>
+                </li>-->
+            </ul>
+        </div>
     </div>
-  </nav>
-  <div class="container mt-4">
-    <center><h1>What do you want to watch?</h1></center>
-	  <!--<p>if any Files Notworking or any issues ask on telegram @thopmoview</p>-->
-    <div class="form-group mt-3">
-      <label for="searchInput">Search:</label>
-      <input class="form-control mr-sm-2" type="search" id="searchInput" placeholder="Search by title" onkeyup="handleSearch()">
-    </div>
- <!--    <form class="form-inline my-2 my-lg-0 ml-auto">
-     <a href="https://t.me/medical_videoo" target="_blank" class="text-dark">
-      <i class="fab fa-telegram fa-lg"></i>
-    </form>
-  </nav>
+</nav>
 
- <!-- <div class="container mt-4">-->
-    <div class="row" id="dataRow"></div>
-    <div class="text-center mt-3">
-      <button class="btn btn-primary" id="loadMoreBtn">Load More</button>
-    </div>
-  </div>
-  <div class="loading-overlay" id="loadingOverlay">
-    <div class="spinner-border text-primary" role="status">
-      <span class="sr-only">Loading...</span>
-    </div>
-  </div>
+<div class="container mt-5">
+  <h1>Medical Folders</h1>
 
-  <!-- Include Bootstrap JS and your custom JavaScript -->
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-  <script>
-    let allData = [];
-    let displayedData = [];
-    const itemsPerPage = 6;
-    let currentPage = 1;
-    let searchQuery = '';
+  <div class="row" id="folders"></div>
+</div>
 
-    const loadingOverlay = document.getElementById('loadingOverlay');
+<script>
+  // Fetch folders from Cloudflare Worker
+  fetch('https://med-fld.thopdbapp.workers.dev/')
+    .then(response => response.json())
+    .then(data => {
+      const foldersContainer = document.getElementById('folders');
 
-    async function fetchData(page) {
-      try {
-        showLoadingAnimation();
-        const response = await fetch(`https://api-med.thopdbapp.workers.dev/?id=8356&page=${page}&search=${searchQuery}`);
-        const data = await response.json();
-        hideLoadingAnimation();
-        return data.files;
-      } catch (error) {
-        hideLoadingAnimation();
-        console.error('Error fetching data:', error);
-        return [];
-      }
-    }
+      data.folders.forEach(folder => {
+        const folderItem = document.createElement('div');
+        folderItem.className = 'col-md-4 folder-item';
 
-    async function fetchAllData() {
-      try {
-        let nextPage = 1;
-        let newData = [];
+        const folderLink = document.createElement('a');
+        folderLink.href = `https://medfiles.pages.dev/folder?id=${folder.fld_id}`;
+        folderLink.textContent = folder.name;
 
-        while (true) {
-          const response = await fetch(`https://api-med.thopdbapp.workers.dev/?id=8356&page=${nextPage}&search=${searchQuery}`);
-          const data = await response.json();
+        const folderIcon = document.createElement('i');
+        folderIcon.className = 'fas fa-folder';
 
-          if (data.files.length === 0) {
-            break;
-          }
+        folderItem.appendChild(folderIcon);
+        folderItem.appendChild(folderLink);
 
-          newData = [...newData, ...data.files];
-          nextPage++;
-        }
-
-        return newData;
-      } catch (error) {
-        console.error('Error fetching data:', error);
-        return [];
-      }
-    }
-
-    async function fetchAndDisplayData() {
-      allData = await fetchAllData();
-      displayedData = allData.slice(0, itemsPerPage);
-      displayData(displayedData);
-    }
-
-    // Function to display data
-    function displayData(data) {
-      const dataRow = document.getElementById('dataRow');
-      dataRow.innerHTML = '';
-
-      data.forEach(file => {
-        const card = document.createElement('div');
-        card.className = 'col-md-4 col-sm-6 mb-4';
-
-        const cardContent = `
-          <a href="https://streamwish.thopdbapp.workers.dev/?id=${file.file_code}" target="_blank" class="card-link">
-            <div class="card">
-              <div class="position-relative">
-                <img src="${file.thumbnail}" class="card-img-top" alt="${file.title}">
-                <div class="play-button-overlay">
-                  <i class="fas fa-play"></i>
-                </div>
-              </div>
-              <div class="card-body">
-                <h5 class="card-title">${file.title}</h5>
-                <p class="card-text">${file.title}</p>
-              </div>
-            </div>
-          </a>
-        `;
-
-        card.innerHTML = cardContent;
-        dataRow.appendChild(card);
+        foldersContainer.appendChild(folderItem);
       });
-    }
-
-    // Function to handle Load More button
-    const loadMoreBtn = document.getElementById('loadMoreBtn');
-    loadMoreBtn.addEventListener('click', () => {
-      currentPage++;
-      const startIdx = (currentPage - 1) * itemsPerPage;
-      const endIdx = startIdx + itemsPerPage;
-
-      if (startIdx < allData.length) {
-        displayedData = allData.slice(0, endIdx);
-        displayData(displayedData);
-        window.scrollTo(0, 0);
-      } else {
-        loadMoreBtn.disabled = true;
-      }
+    })
+    .catch(error => {
+      console.error('Error fetching folders:', error);
     });
+</script>
 
-    // Function to handle search input
-    function handleSearch() {
-      searchQuery = document.getElementById('searchInput').value;
-      fetchAndDisplayData();
-      updateURLParams();
-    }
 
-    // Function to update URL parameters
-    function updateURLParams() {
-      const queryParams = new URLSearchParams(window.location.search);
-
-      if (searchQuery) {
-        queryParams.set('search', searchQuery);
-      } else {
-        queryParams.delete('search');
-      }
-
-      queryParams.delete('page'); // Clear page parameter
-
-      const newURL = `${window.location.pathname}${queryParams.toString() ? '?' + queryParams.toString() : ''}`;
-      window.history.replaceState({}, '', newURL);
-    }
-
-    // Function to show loading animation
-    function showLoadingAnimation() {
-      loadingOverlay.style.display = 'block';
-    }
-
-    // Function to hide loading animation
-    function hideLoadingAnimation() {
-      loadingOverlay.style.display = 'none';
-    }
-
-    // Function to parse URL parameters and initialize data
-    function initializeFromURL() {
-      const queryParams = new URLSearchParams(window.location.search);
-      searchQuery = queryParams.get('search') || '';
-
-      fetchAndDisplayData();
-      document.getElementById('searchInput').value = searchQuery;
-    }
-
-    // Initial fetching and displaying of data based on URL parameters
-    initializeFromURL();
-
-  </script>
-<center><script id="_wauxr4">var _wau = _wau || []; _wau.push(["small", "chrhh2fw4m", "xr4"]);</script><script async src="//waust.at/s.js"></script></center>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	
 </body>
 </html>
