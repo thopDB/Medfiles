@@ -73,10 +73,6 @@
 </div>
 
 <script>
-	async function handleRequest(request) {
-  // Extract id and fld_id from the request URL parameters
-  const url = new URL(request.url);
-  const id = url.searchParams.get('id');
   document.addEventListener('DOMContentLoaded', function() {
     const loadingElement = document.getElementById('loading');
     const dataTable = document.getElementById('dataTable');
@@ -84,12 +80,17 @@
     // Show loading animation
     loadingElement.style.display = 'block';
 
+    // Retrieve id and fld_id from the URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const id = urlParams.get('id');
+   // const fld_id = urlParams.get('fld_id');
+
     // Fetch data from the API
-    fetch('https://med-api.thopdbapp.workers.dev/?id=${id}')
+    fetch(`https://med-api.thopdbapp.workers.dev/?id=${id}`)
       .then(response => response.json())
       .then(data => {
         if (data.status === 200) {
-          displayData(data.result.files);
+          displayData(data.result.files, id);
         } else {
           console.error('Error fetching data:', data.msg);
         }
@@ -102,13 +103,13 @@
       });
   });
 
-  function displayData(files) {
+  function displayData(files, id) {
     const apiDataContainer = document.getElementById('apiData');
 
     files.forEach(file => {
       const rowHtml = `
         <tr>
-          <td><a href="video.html?id=${file.file_code}" target="_blank">${file.title}</a></td>
+          <td><a href="details.html?id=${file.file_code}&fld_id=${id}" target="_blank">${file.title}</a></td>
           <td>${file.views}</td>
         </tr>
       `;
@@ -116,7 +117,6 @@
       apiDataContainer.innerHTML += rowHtml;
     });
   }
-}
 </script>
 
 </body>
